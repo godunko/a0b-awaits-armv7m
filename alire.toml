@@ -1,5 +1,5 @@
 name = "a0b_awaits_armv7m"
-version = "0.1.0-dev"
+version = "0.1.0"
 website = "https://github.com/godunko/a0b-awaits-armv7m"
 description = "A0B: Await for ARMv7M"
 long-description = """
