@@ -10,8 +10,6 @@ with "a0b_common.gpr";
 
 library project A0B_Awaits_ARMv7M is
 
-   for Target use "arm-eabi";
-
    for Library_Name use "a0b_awaits_armv7m";
    for Library_Dir use ".libs/" & A0B_Common.Library_Dir_Suffix;
    for Object_Dir use ".objs/" & A0B_Common.Object_Dir_Suffix;
