@@ -41,8 +41,12 @@ package body A0B.Awaits is
    procedure Suspend_Until_Callback
      (Self    : in out Await;
       Success : in out Boolean)
+     with SPARK_Mode => On
    is
+      pragma Unmodified (Success);
+
       Saved_PRIMASK : Boolean;
+      Barrier_Open  : Boolean;
 
    begin
       if not Success then
@@ -52,7 +56,13 @@ package body A0B.Awaits is
       Saved_PRIMASK := A0B.ARMv7M.Instructions.Get_PRIMASK;
       A0B.ARMv7M.Instructions.Disable_Interrupts;
 
-      while not Self.Barrier loop
+      loop
+         --  The mask must be set before each asynchronous barrier read.
+         pragma Loop_Invariant (A0B.ARMv7M.Instructions.Get_PRIMASK);
+
+         Barrier_Open := Self.Barrier;
+         exit when Barrier_Open;
+
          --  PRIMASK prevents the callback from running between the barrier
          --  check and WFI. A pending interrupt still wakes the processor.
 

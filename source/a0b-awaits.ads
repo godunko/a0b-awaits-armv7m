@@ -26,7 +26,11 @@ is
    procedure Suspend_Until_Callback
      (Self    : in out Await;
       Success : in out Boolean)
-     with Pre => A0B.ARMv7M.Instructions.Get_IPSR = 0;
+     with SPARK_Mode => On,
+          Pre  => A0B.ARMv7M.Instructions.Get_IPSR = 0,
+          Post => A0B.ARMv7M.Instructions.Get_PRIMASK =
+            A0B.ARMv7M.Instructions.Get_PRIMASK'Old
+              and then Success = Success'Old;
    --  Suspend execution of the current task till callback is called. Must be
    --  called from Thread mode, outside exception and interrupt handlers.
 
@@ -34,6 +38,6 @@ private
 
    type Await is limited record
       Barrier : Boolean := False with Volatile;
-   end record;
+   end record with Volatile;
 
 end A0B.Awaits;
