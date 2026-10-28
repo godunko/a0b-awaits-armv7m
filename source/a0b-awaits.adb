@@ -4,7 +4,6 @@
 --  SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 --
 
-with A0B.ARMv7M.Instructions;
 with A0B.Callbacks.Generic_Subprogram;
 
 package body A0B.Awaits is
