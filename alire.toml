@@ -18,6 +18,10 @@ generate_gpr = true
 [configuration.values]
 a0b_base.tasking = "none"
 
+[[actions]]
+type = "test"
+command = ["alr", "build", "--", "--target=arm-eabi", "--RTS=light-cortex-m3"]
+
 [[depends-on]]
 a0b_armv7m = "*"
 a0b_callbacks = "*"
