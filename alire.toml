@@ -26,5 +26,5 @@ type = "test"
 command = ["alr", "build", "--", "--target=arm-eabi", "--RTS=light-cortex-m3"]
 
 [[depends-on]]
-a0b_armv7m = "*"
-a0b_callbacks = "*"
+a0b_armv7m = "^0.6.0"
+a0b_callbacks = "^0.3.0"
