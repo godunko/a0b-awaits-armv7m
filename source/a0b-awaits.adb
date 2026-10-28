@@ -40,17 +40,37 @@ package body A0B.Awaits is
 
    procedure Suspend_Until_Callback
      (Self    : in out Await;
-      Success : in out Boolean) is
+      Success : in out Boolean)
+   is
+      Saved_PRIMASK : Boolean;
+
    begin
       if not Success then
          return;
       end if;
 
+      Saved_PRIMASK := A0B.ARMv7M.Instructions.Get_PRIMASK;
+      A0B.ARMv7M.Instructions.Disable_Interrupts;
+
       while not Self.Barrier loop
+         --  PRIMASK prevents the callback from running between the barrier
+         --  check and WFI. A pending interrupt still wakes the processor.
+
+         --  Complete outstanding memory accesses before entering sleep.
+
+         A0B.ARMv7M.Instructions.Data_Synchronization_Barrier;
          A0B.ARMv7M.Instructions.Wait_For_Interrupt;
+
+         --  Let pending handlers run before masking interrupts again.
+
+         A0B.ARMv7M.Instructions.Set_PRIMASK (Saved_PRIMASK);
+         A0B.ARMv7M.Instructions.Instruction_Synchronization_Barrier;
+         A0B.ARMv7M.Instructions.Disable_Interrupts;
       end loop;
 
       Self.Barrier := False;
+
+      A0B.ARMv7M.Instructions.Set_PRIMASK (Saved_PRIMASK);
    end Suspend_Until_Callback;
 
 end A0B.Awaits;
