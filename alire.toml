@@ -1,7 +1,10 @@
 name = "a0b_awaits_armv7m"
 version = "0.1.0-dev"
-website = "https://github.com/godunko/a0b-base"
+website = "https://github.com/godunko/a0b-awaits-armv7m"
 description = "A0B: Await for ARMv7M"
+long-description = """
+ARMv7-M specific wait and synchronization primitives for bare-metal Ada applications, built explicitly for GNAT `light` runtimes on Cortex-M3/M4/M7 microcontrollers.
+"""
 
 authors = ["Vadim Godunko"]
 maintainers = ["Vadim Godunko <vgodunko@gmail.com>"]
